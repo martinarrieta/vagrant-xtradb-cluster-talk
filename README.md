@@ -1,49 +1,93 @@
-Notes:
+NOTES
+=====
 
 
-# Connect to node1
+Setup the environment
+=====================
 
-host> vagrant ssh node1
+Requirements
+------------
 
-#Become root
-
-node1> sudo -s 
-
-#Create the default my.cnf file:
-
-node1> cat /opt/notes/my.cnf-00 > /etc/my.cnf
-
-#Add the default wsrep option to the my.cnf file
-
-node1> cat /opt/notes/my.cnf-01 >> /etc/my.cnf
-
-# Start the cluster
-
-node1> /etc/init.d/mysql start --wsrep_cluster_address=gcomm://
-
-# if you have 5.5.31-23.7.5 or newer 
-
-node1> /etc/init.d/mysql bootstrap-pxc
+* git
+* VirtualBox https://www.virtualbox.org Please do NOT use the vesion 4.2.14 becuause of "https://www.virtualbox.org/ticket/11895". It sholud be fixed on 4.2.16
+* Vagrant http://www.vagrantup.com
 
 
-# Create the MySQL user to make the SST.
+Installation
+------------
 
-node1> mysql -u root -e "GRANT RELOAD, LOCK TABLES, REPLICATION CLIENT ON *.* TO 'sst'@'localhost' IDENTIFIED BY 'secret'"
+	host> git clone https://github.com/martinarrieta/vagrant-xtradb-cluster-talk
+	host> cd vagrant-xtradb-cluster-talk
+	host> sh download_rpms.sh
+	host> vagrant up
 
 
-# Connect to node2
+Node1
+-----
 
-host> vagrant ssh node2
+Connect to node1
 
-#Become root
+	host> vagrant ssh node1
 
-node2> sudo -s 
+Become root
 
-#Create the default my.cnf file:
+	node1> sudo -s 
 
-node2> cat /opt/notes/my.cnf-00 > /etc/my.cnf
+Create the default my.cnf file:
 
-#Add the default wsrep option to the my.cnf file
+	node1> cat /opt/notes/my.cnf-00 > /etc/my.cnf
 
-node2> cat /opt/notes/my.cnf-01 >> /etc/my.cnf
+Add the default wsrep option to the my.cnf file
 
+	node1> cat /opt/notes/my.cnf-01 >> /etc/my.cnf
+
+Start the cluster
+
+	node1> /etc/init.d/mysql start --wsrep_cluster_address=gcomm://
+	# if you have 5.5.31-23.7.5 or newer 
+	node1> /etc/init.d/mysql bootstrap-pxc
+
+
+Create the MySQL user to make the SST.
+
+	node1> mysql -u root -e "GRANT RELOAD, LOCK TABLES, REPLICATION CLIENT ON *.* TO 'sst'@'localhost' IDENTIFIED BY 'secret'"
+
+
+Node2
+-----
+
+Connect to node2
+
+	host> vagrant ssh node2
+
+Become root
+
+	node2> sudo -s 
+
+Create the default my.cnf file:
+
+	node2> cat /opt/notes/my.cnf-00 > /etc/my.cnf
+
+Add the default wsrep option to the my.cnf file
+
+	node2> cat /opt/notes/my.cnf-01 >> /etc/my.cnf
+
+
+Node3
+-----
+
+Connect to node3
+
+	host> vagrant ssh node3
+
+Become root
+
+	node3> sudo -s 
+
+Create the default my.cnf file:
+
+	node3> cat /opt/notes/my.cnf-00 > /etc/my.cnf
+
+Add the default wsrep option to the my.cnf file
+
+	node3> cat /opt/notes/my.cnf-01 >> /etc/my.cnf
