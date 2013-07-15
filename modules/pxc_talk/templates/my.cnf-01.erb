@@ -1,0 +1,13 @@
+# BEGIN - XtraDB Cluster configuration
+
+wsrep_cluster_name              = pxctalk
+wsrep_cluster_address           = gcomm://192.168.72.51,192.168.72.52,192.168.72.53
+wsrep_node_name                 = <%= hostname %>
+wsrep_node_address              = <%= ipaddress_eth1 %>
+
+wsrep_provider                  = /usr/lib64/libgalera_smm.so
+
+wsrep_sst_method                = xtrabackup
+wsrep_sst_auth                  = sst:secret
+
+# END - XtraDB Cluster configuration

@@ -1,0 +1,25 @@
+# BEGIN - Basic configuration
+
+# The following options will be passed to all MySQL clients
+[client]
+port                     = 3306
+socket                   = /var/lib/mysql/mysql.sock
+
+# The MySQL server
+[mysqld]
+port                     = 3306
+socket                   = /var/lib/mysql/mysql.sock
+datadir                  = /var/lib/mysql/
+bind-address             = 0.0.0.0
+
+
+# In order for Galera to work correctly binlog format should be ROW
+binlog_format            = ROW 
+
+# MyISAM storage engine has only experimental support
+default_storage_engine   = InnoDB 
+
+# This changes how |InnoDB| autoincrement locks are managed and is a requirement for Galera
+innodb_autoinc_lock_mode = 2
+
+# END - Basic configuration
