@@ -8,7 +8,7 @@ Setup the environment
 Requirements
 ------------
 
-* git
+* git http://git-scm.com/ 
 * VirtualBox https://www.virtualbox.org Please do NOT use the vesion 4.2.14 becuause of "https://www.virtualbox.org/ticket/11895". It sholud be fixed on 4.2.16
 * Vagrant http://www.vagrantup.com
 
@@ -21,6 +21,7 @@ Installation
 	host> sh download_rpms.sh
 	host> vagrant up
 
+If you have any problem with this initial setup, please open a new issue on this URL: https://github.com/martinarrieta/vagrant-xtradb-cluster-talk/issues
 
 Node1
 -----
