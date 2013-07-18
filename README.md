@@ -23,6 +23,9 @@ Installation
 
 If you have any problem with this initial setup, please open a new issue on this URL: https://github.com/martinarrieta/vagrant-xtradb-cluster-talk/issues
 
+During the talk
+===============
+
 Node1
 -----
 
