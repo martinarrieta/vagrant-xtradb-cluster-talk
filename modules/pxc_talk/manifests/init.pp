@@ -5,8 +5,9 @@ class pxc_talk( ) {
   $basearch = $hardwaremodel
   $extension = "rhel$releasever.$basearch.rpm"
   
-  $version="5.5.31-23.7.5"
+  $version="5.5.33-23.7.6"
   
+  $build="495"
   
 	yumrepo { 
     "percona":
@@ -19,6 +20,13 @@ class pxc_talk( ) {
   Packages {
     ensure => 'installed',
   }
+
+  package {
+    'socat':
+      ensure => 'installed',
+      provider => 'rpm',
+      source => '/tmp/vagrant-puppet/modules-0/pxc_talk/files/rpms/socat-1.7.2.2-1.el6.x86_64.rpm',
+  }
   
   package {
     'percona-xtrabackup':
@@ -27,22 +35,19 @@ class pxc_talk( ) {
   
   file {
     'Percona-XtraDB-Cluster-shared':
-      path=> "/var/cache/yum/x86_64/6/percona/packages/Percona-XtraDB-Cluster-shared-$version.438.$extension",
-      source => "puppet:///pxc_talk/rpms/Percona-XtraDB-Cluster-shared-$version.438.$extension",
-      require => Package['percona-xtrabackup'];
+      path=> "/var/cache/yum/x86_64/6/percona/packages/Percona-XtraDB-Cluster-shared-$version.$build.$extension",
+      source => "puppet:///pxc_talk/rpms/Percona-XtraDB-Cluster-shared-$version.$build.$extension",
+      require => [Package['percona-xtrabackup']];
     'Percona-XtraDB-Cluster-client':
-      path=> "/var/cache/yum/x86_64/6/percona/packages/Percona-XtraDB-Cluster-client-$version.438.$extension",
-      source => "puppet:///pxc_talk/rpms/Percona-XtraDB-Cluster-client-$version.438.$extension",
-      require => Package['percona-xtrabackup'];
+      path=> "/var/cache/yum/x86_64/6/percona/packages/Percona-XtraDB-Cluster-client-$version.$build.$extension",
+      source => "puppet:///pxc_talk/rpms/Percona-XtraDB-Cluster-client-$version.$build.$extension",
+      require => [Package['percona-xtrabackup'], Package['socat']];
     'Percona-XtraDB-Cluster-server':
-      path=> "/var/cache/yum/x86_64/6/percona/packages/Percona-XtraDB-Cluster-server-$version.438.$extension",
-      source => "puppet:///pxc_talk/rpms/Percona-XtraDB-Cluster-server-$version.438.$extension",
-      require => Package['percona-xtrabackup'];
+      path=> "/var/cache/yum/x86_64/6/percona/packages/Percona-XtraDB-Cluster-server-$version.$build.$extension",
+      source => "puppet:///pxc_talk/rpms/Percona-XtraDB-Cluster-server-$version.$build.$extension",
+      require => [Package['percona-xtrabackup'],  Package['socat']];
   } 
   
-  
- 
-   
   package {
     'Percona-XtraDB-Cluster-shared':
     require => File['Percona-XtraDB-Cluster-shared'];
@@ -71,5 +76,10 @@ class pxc_talk( ) {
     require => File['/opt/notes'],
     content => template("pxc_talk/my.cnf-01.erb"),
   }
+  service { "mysql":
+    enable => false,
+    ensure => stopped,
+  }
+  
   
 }
